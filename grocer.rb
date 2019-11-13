@@ -98,6 +98,7 @@ def apply_clearance(cart)
   while count < cart.length
     #Check item to see if it on clearance or has the clearance key
     if cart[count][:clearance]
+      #Update item in cart price  by applying 20% discount
       cart[count][:price] = (cart[count][:price] * 0.8).round(2)
     end
     count += 1
@@ -112,7 +113,21 @@ def checkout(cart, coupons)
   # * consolidate_cart
   # * apply_coupons
   # * apply_clearance
-  #
-  # BEFORE it begins the work of calculating the total (or else you might have
-  # some irritated customers
+
+  #First, create variable to store the consolidated cart
+  cart_consolidated = consolidate_cart(cart)
+  cart_after_coupons = apply_coupons(cart_consolidated)
+  cart_at_checkout= apply_clearance(cart_after_coupons)
+
+  total_at_checkout = 0
+  index = 0
+  while index < cart_at_checkout.length
+    total += cart_at_checkout[index][:price] * cart_at_checkout[index][:count]
+    index += 1
+  end
+  #Apply 10% discount if total over $100
+  if total_at_checkout > 100
+   total_at_checkout = (total_at_checkout * 0.9).round(2)
+  end
+    total
 end
