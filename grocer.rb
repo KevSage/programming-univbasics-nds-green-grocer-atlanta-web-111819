@@ -122,7 +122,7 @@ def checkout(cart, coupons)
   total_at_checkout = 0
   index = 0
   while index < cart_at_checkout.length
-    total += cart_at_checkout[index][:price] * cart_at_checkout[index][:count]
+    total_at_checkout += cart_at_checkout[index][:price] * cart_at_checkout[index][:count]
     index += 1
   end
   #Apply 10% discount if total over $100
