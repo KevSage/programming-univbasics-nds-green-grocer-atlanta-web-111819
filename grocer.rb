@@ -72,7 +72,7 @@ def apply_coupons(cart, coupons)
           #If the cart item does not exist
         else
           item_with_coupon = {
-            :item => item_coupon_name
+            :item => item_coupon_name,
             #Cost of the number of items on the coupon divided by the number of items it applies to
             #This will give the discounted price of each item
             :price => coupons[count][:cost] / coupons[count][:num],
