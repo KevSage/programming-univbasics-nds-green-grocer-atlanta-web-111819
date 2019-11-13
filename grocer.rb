@@ -46,10 +46,47 @@ updated_cart
 end
 
 def apply_coupons(cart, coupons)
-  # Consult README for inputs and outputs
-  #
-  # REMEMBER: This method **should** update cart
-end
+  #LOGIC
+  #1 Check the coupons against the items in the cart to see if any can have coupons applied
+  #2
+
+  #loop through the coupons to see if the coupon matches anything in our cart
+   count = 0
+   while count  < coupons.length
+     #We can use our find_item_by_name_in_collection method to chek items in our cart.
+     #First, set a variable forthe couponed item
+     item = find_item_by_name_in_collection(coupons[count][:item], cart)
+     #Set a variable for each coupon in the collection of coupons
+     item_coupon_name = "#{coupons[count][:item]} W/COUPON"
+     #Create a variable for an item within the cart that has a copuon
+     item_with_coupon = find_item_by_name_in_collection(item_coupon_name, cart)
+     #Check to see if item is in cart
+     #And check if item[:count] is greater than or equal items required to redeem the coupon
+     if item && item[:count] >= coupons[count][:num]
+       #If the item with coupon is in the cart
+        if item_with_coupon
+          #Increase item with coupon by the number required to redeem
+          item_with_coupon[:count] += coupons[count][:num]
+          #remove coupon from the collection of coupons
+          item[:count] -= coupons[count][:num]
+          #If the cart item does not exist
+        else
+          item_with_coupon = {
+            :item => item_coupon_name
+            #Cost of the number of items on the coupon divided by the number of items it applies to
+            #This will give the discounted price of each item
+            :price => coupons[count][:cost] / coupons[count][:num],
+            :count => coupons[count][:num],
+            :clearance => item[:clearance]
+          }
+          cart << item_with_coupon
+          item[:count] -= coupons[count][:num]
+        end
+     end
+     count +=1
+    end
+    cart
+   end
 
 def apply_clearance(cart)
   # Consult README for inputs and outputs
