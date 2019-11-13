@@ -79,6 +79,7 @@ def apply_coupons(cart, coupons)
             :count => coupons[count][:num],
             :clearance => item[:clearance]
           }
+          #add item with coupon to cart
           cart << item_with_coupon
           item[:count] -= coupons[count][:num]
         end
@@ -92,6 +93,16 @@ def apply_clearance(cart)
   # Consult README for inputs and outputs
   #
   # REMEMBER: This method **should** update cart
+  #Loop through the cart
+  count =0
+  while count < cart.length
+    #Check item to see if it on clearance or has the clearance key
+    if cart[count][:clearance]
+      cart[count][:price] = (cart[count][:price] * 0.8).round(2)
+    end
+    count += 1
+  end
+  cart
 end
 
 def checkout(cart, coupons)
